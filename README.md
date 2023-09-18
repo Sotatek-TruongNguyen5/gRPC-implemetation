@@ -1,2 +1,2 @@
-# gRPC-implemetation
-implementation of 4 kind
+gRPC Communication Types in Java
+This README provides an overview of four common communication types in gRPC for Java. gRPC is a high-performance, open-source framework for building remote procedure call (RPC) APIs.
