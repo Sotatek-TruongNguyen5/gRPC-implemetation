@@ -1,11 +1,10 @@
-package com.gitlab.techschool.pcbook.service;
+package com.client;
 
-import com.gitlab.techschool.pcbook.pb.CreateLaptopRequest;
-import com.gitlab.techschool.pcbook.pb.CreateLaptopResponse;
-import com.gitlab.techschool.pcbook.pb.Laptop;
-import com.gitlab.techschool.pcbook.pb.LaptopServiceGrpc;
-import com.gitlab.techschool.pcbook.pb.LaptopServiceGrpc.LaptopServiceBlockingStub;
-import com.gitlab.techschool.pcbook.sample.Generator;
+import com.generated.CreateLaptopRequest;
+import com.generated.CreateLaptopResponse;
+import com.generated.Laptop;
+import com.generated.LaptopServiceGrpc;
+import com.serializer.Generator;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.Status;
@@ -19,7 +18,7 @@ public class LaptopClient {
     private static final Logger logger = Logger.getLogger(LaptopClient.class.getName());
 
     private final ManagedChannel channel;
-    private final LaptopServiceBlockingStub blockingStub;
+    private final LaptopServiceGrpc.LaptopServiceBlockingStub blockingStub;
 
     public LaptopClient(String host, int port) {
         channel = ManagedChannelBuilder.forAddress(host, port)

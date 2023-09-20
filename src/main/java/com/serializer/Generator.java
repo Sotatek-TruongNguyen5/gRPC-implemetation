@@ -1,6 +1,7 @@
 package com.serializer;
 
-import com.gitlab.techschool.pcbook.pb.*;
+
+import com.generated.*;
 import com.google.protobuf.Timestamp;
 
 import java.time.Instant;
