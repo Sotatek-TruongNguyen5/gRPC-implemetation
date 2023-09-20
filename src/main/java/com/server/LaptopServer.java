@@ -1,10 +1,11 @@
 package com.server;
 
-import com.service.InMemoryLaptopStore;
-import com.service.LaptopService;
-import com.service.LaptopStore;
+import com.service.*;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import io.grpc.netty.NettyServerBuilder;
+import io.grpc.protobuf.services.ProtoReflectionService;
+import io.netty.handler.ssl.SslContext;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -16,14 +17,21 @@ public class LaptopServer {
     private final int port;
     private final Server server;
 
-    public LaptopServer(int port, LaptopStore store) {
-        this(ServerBuilder.forPort(port), port, store);
+    public LaptopServer(int port, LaptopStore laptopStore, ImageStore imageStore, RatingStore ratingStore) {
+        this(ServerBuilder.forPort(port), port, laptopStore, imageStore, ratingStore);
     }
 
-    public LaptopServer(ServerBuilder serverBuilder, int port, LaptopStore store) {
+    public LaptopServer(int port, LaptopStore laptopStore, ImageStore imageStore, RatingStore ratingStore,
+                        SslContext sslContext) {
+        this(NettyServerBuilder.forPort(port).sslContext(sslContext), port, laptopStore, imageStore, ratingStore);
+    }
+
+    public LaptopServer(ServerBuilder serverBuilder, int port, LaptopStore laptopStore, ImageStore imageStore, RatingStore ratingStore) {
         this.port = port;
-        LaptopService laptopService = new LaptopService(store);
-        server = serverBuilder.addService(laptopService).build();
+        LaptopService laptopService = new LaptopService(laptopStore, imageStore, ratingStore);
+        server = serverBuilder.addService(laptopService)
+                .addService(ProtoReflectionService.newInstance())
+                .build();
     }
 
     public void start() throws IOException {
@@ -57,8 +65,11 @@ public class LaptopServer {
     }
 
     public static void main(String[] args) throws InterruptedException, IOException {
-        InMemoryLaptopStore store = new InMemoryLaptopStore();
-        LaptopServer server = new LaptopServer(8080, store);
+        InMemoryLaptopStore laptopStore = new InMemoryLaptopStore();
+        DiskImageStore imageStore = new DiskImageStore("img");
+        InMemoryRatingStore ratingStore = new InMemoryRatingStore();
+
+        LaptopServer server = new LaptopServer(8080, laptopStore, imageStore, ratingStore);
         server.start();
         server.blockUntilShutdown();
     }
