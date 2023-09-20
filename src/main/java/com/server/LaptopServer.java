@@ -1,5 +1,8 @@
-package com.gitlab.techschool.pcbook.service;
+package com.server;
 
+import com.service.InMemoryLaptopStore;
+import com.service.LaptopService;
+import com.service.LaptopStore;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
