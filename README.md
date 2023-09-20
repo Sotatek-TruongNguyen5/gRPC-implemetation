@@ -13,6 +13,19 @@ gRPC is a high-performance, language-agnostic framework for building remote proc
 
 For more detailed information about gRPC, please visit the [official gRPC website](https://grpc.io/).
 
+## Repository Objective
+The primary objective of this repository is to simulate and share real-time technical specifications of a computer system. This includes monitoring and transmitting data related to:
+
+RAM Usage
+
+CPU Utilization
+
+GPU Performance
+
+Disk Volume Usage
+
+And more...
+
 In this README, we will briefly describe each of these types of RPC calls.
 
 ## 1. Unary RPC
